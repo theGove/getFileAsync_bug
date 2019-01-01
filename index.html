@@ -6,14 +6,23 @@
     <title>GetFileAsync Bug</title>
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/Office.js" type="text/javascript"></script>
     <script>
+        function startMeUp(){
+            Office.initialize = function () {
+            debug.log('starting up');
+            document.getElementById("output").innerHTML = "Started"
+            }
+        }
+
       function getDocumentAsCompressed(){
           console.log("at getDocumentAsCompressed")
+          document.getElementById("output").innerHTML = "Clicked"
       }
 
     </script>
   </head>
-  <body>
-    Click the button once to see how many bytes are the in current workbook.  Click it again to crash Excel.
+  <body onload="startMeUp();">
+    <p>Click the button once to see how many bytes are the in current workbook.  Click it again to crash Excel.</p>
     <button onclick="getDocumentAsCompressed()">File Bytes</button>
+    <p id="output"></p>
   </body>
 </html>
