@@ -98,7 +98,7 @@
         function changeCell(){
             Excel.run(function (context) {
                 var range = context.workbook.getSelectedRange();
-                range.value="122"
+                range.values="122"
                 return context.sync();
             }).catch(function(error){
                 debug.log("Error: " + error);
