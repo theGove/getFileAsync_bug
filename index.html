@@ -9,14 +9,92 @@
         function startMeUp(){
             Office.initialize = function () {
             console.log('starting up');
-            document.getElementById("output").innerHTML = "Started"
+            document.getElementById("output").innerHTML = "Addin Initialized"
             }
         }
 
-      function getDocumentAsCompressed(){
-          console.log("at getDocumentAsCompressed")
-          document.getElementById("output").innerHTML = "Clicked"
-      }
+        //The example comes from the MS Documentation on the getFileAsync() method at this URL:
+        //https://docs.microsoft.com/en-us/javascript/api/office/office.document.  It's a long
+        //page, just scroll to getFileAsync or search the page for "The following example gets
+        //the document in Office Open XML" 
+
+        //I have made 4 changes to the example because the example depended on a way of showing 
+        //feedback to the user that is not native
+
+
+        // The following example gets the document in Office Open XML ("compressed") format in 65536 bytes (64 KB) slices.
+        // Note: The implementation of app.showNotification in this example is from the Visual Studio template for Office Add-ins.
+        function getDocumentAsCompressed() {
+            Office.context.document.getFileAsync(Office.FileType.Compressed, { sliceSize: 65536 /*64 KB*/ }, 
+                function (result) {
+                    if (result.status == "succeeded") {
+                    // If the getFileAsync call succeeded, then
+                    // result.value will return a valid File Object.
+                    var myFile = result.value;
+                    var sliceCount = myFile.sliceCount;
+                    var slicesReceived = 0, gotAllSlices = true, docdataSlices = [];
+        //////// #1 change by Gove:  app.showNotification to write directly to a paragraph tag
+                    //app.showNotification("File size:" + myFile.size + " #Slices: " + sliceCount);//original code
+                    document.getElementById("output").innerHTML += "<hr>File size:" + myFile.size + " #Slices: " + sliceCount;// as modified by Gove
+
+                    // Get the file slices.
+                    getSliceAsync(myFile, 0, sliceCount, gotAllSlices, docdataSlices, slicesReceived);
+                    }
+                    else {
+        //////// #2 change by Gove:  app.showNotification changed to write directly to paragraph tag
+                    //app.showNotification("Error:", result.error.message);//original code
+                    document.getElementById("output").innerHTML += "<hr>Error: " + result.error.message;// as modified by Gove
+                    }
+            });
+        }
+
+        function getSliceAsync(file, nextSlice, sliceCount, gotAllSlices, docdataSlices, slicesReceived) {
+            file.getSliceAsync(nextSlice, function (sliceResult) {
+                if (sliceResult.status == "succeeded") {
+                    if (!gotAllSlices) { // Failed to get all slices, no need to continue.
+                        return;
+                    }
+
+                    // Got one slice, store it in a temporary array.
+                    // (Or you can do something else, such as
+                    // send it to a third-party server.)
+                    docdataSlices[sliceResult.value.index] = sliceResult.value.data;
+                    if (++slicesReceived == sliceCount) {
+                    // All slices have been received.
+                    file.closeAsync();
+                    onGotAllSlices(docdataSlices);
+                    }
+                    else {
+                        getSliceAsync(file, ++nextSlice, sliceCount, gotAllSlices, docdataSlices, slicesReceived);
+                    }
+                }
+                    else {
+                        gotAllSlices = false;
+                        file.closeAsync();
+
+        //////// #3 change by Gove:  app.showNotification changed to write directly to paragraph tag
+                        //app.showNotification("getSliceAsync Error:", sliceResult.error.message);//original code
+                        document.getElementById("output").innerHTML += "<hr>getSliceAsync Error: " + sliceResult.error.message;//as modified by Gove
+                    }
+            });
+        }
+
+        function onGotAllSlices(docdataSlices) {
+            var docdata = [];
+            for (var i = 0; i < docdataSlices.length; i++) {
+                docdata = docdata.concat(docdataSlices[i]);
+            }
+
+            var fileContent = new String();
+            for (var j = 0; j < docdata.length; j++) {
+                fileContent += String.fromCharCode(docdata[j]);
+            }
+
+            // Now all the file content is stored in 'fileContent' variable,
+            // you can do something with it, such as print, fax...
+        //////// #4 change by Gove:  just doing something with the file content////////
+        document.getElementById("output").innerHTML += "<hr>fileContent.length: " + fileContent.length;
+        }
 
     </script>
   </head>
