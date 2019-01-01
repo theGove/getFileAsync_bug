@@ -35,7 +35,7 @@
                     var slicesReceived = 0, gotAllSlices = true, docdataSlices = [];
         //////// #1 change by Gove:  app.showNotification to write directly to a paragraph tag
                     //app.showNotification("File size:" + myFile.size + " #Slices: " + sliceCount);//original code
-                    document.getElementById("output").innerHTML += "<hr>File size:" + myFile.size + " #Slices: " + sliceCount;// as modified by Gove
+                    document.getElementById("output").innerHTML = "File size:" + myFile.size + " #Slices: " + sliceCount + "<hr>" + document.getElementById("output").innerHTML;// as modified by Gove
 
                     // Get the file slices.
                     getSliceAsync(myFile, 0, sliceCount, gotAllSlices, docdataSlices, slicesReceived);
@@ -43,7 +43,7 @@
                     else {
         //////// #2 change by Gove:  app.showNotification changed to write directly to paragraph tag
                     //app.showNotification("Error:", result.error.message);//original code
-                    document.getElementById("output").innerHTML += "<hr>Error: " + result.error.message;// as modified by Gove
+                    document.getElementById("output").innerHTML = "Error: " + result.error.message  + "<hr>" + document.getElementById("output").innerHTML;// as modified by Gove
                     }
             });
         }
@@ -74,7 +74,7 @@
 
         //////// #3 change by Gove:  app.showNotification changed to write directly to paragraph tag
                         //app.showNotification("getSliceAsync Error:", sliceResult.error.message);//original code
-                        document.getElementById("output").innerHTML += "<hr>getSliceAsync Error: " + sliceResult.error.message;//as modified by Gove
+                        document.getElementById("output").innerHTML ="getSliceAsync Error: " + sliceResult.error.message + "<hr>" + document.getElementById("output").innerHTML;//as modified by Gove
                     }
             });
         }
@@ -93,7 +93,7 @@
             // Now all the file content is stored in 'fileContent' variable,
             // you can do something with it, such as print, fax...
         //////// #4 change by Gove:  just doing something with the file content////////
-        document.getElementById("output").innerHTML += "<hr>fileContent.length: " + fileContent.length;
+        document.getElementById("output").innerHTML = "fileContent.length: " + fileContent.length  + "<hr>" + document.getElementById("output").innerHTML;
         }
 
     </script>
