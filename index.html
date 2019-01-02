@@ -97,7 +97,9 @@
         }
         function changeCell(){
             Excel.run(function (context) {
-                var range = context.workbook.getSelectedRange();
+                var sheet = context.workbook.worksheets.getActiveWorksheet();
+                var range = sheet.getRange("B2:E6");
+//                var range = context.workbook.getSelectedRange();
                 range.values="122"
                 return context.sync();
             }).catch(function(error){
