@@ -100,9 +100,9 @@
         function changeCell(){
             Excel.run(function (context) {
                 console.log(1);
-                var the_number= Math.random() * (4999) + 1;
+                var the_number= Math.ceil(Math.random() * (4999) + 1);
                 console.log(2, the_number);
-                var the_row= Math.random() * (49) + 1;
+                var the_row= Math.ceil(Math.random() * (49) + 1);
                 console.log(3,the_row);
                 var the_col= String.fromCharCode(Math.random() * (25) + 65);
                 console.log(4, the_col);
