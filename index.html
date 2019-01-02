@@ -101,13 +101,13 @@
             Excel.run(function (context) {
                 console.log(1);
                 var the_number= Math.random() * (4999) + 1;
-                console.log(2);
+                console.log(2, the_number);
                 var the_row= Math.random() * (49) + 1;
-                console.log(3);
+                console.log(3,the_row);
                 var the_col= String.fromCharCode(Math.random() * (25) + 65);
-                console.log(4);
+                console.log(4, the_col);
                 var the_address = the_col + str(the_row) + ":" + the_col + str(the_row+50);
-                console.log(5);
+                console.log(5, the_address);
                 document.getElementById("output").innerHTML = the_address + ": " + the_number  + "<hr>" + document.getElementById("output").innerHTML;        
                 console.log(6);
                 var sheet = context.workbook.worksheets.getActiveWorksheet();
