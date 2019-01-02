@@ -6,6 +6,8 @@
     <title>GetFileAsync Bug</title>
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/Office.js" type="text/javascript"></script>
     <script>
+        var the_number=100;
+
         function startMeUp(){
             Office.initialize = function () {
             console.log('starting up');
@@ -99,8 +101,8 @@
             Excel.run(function (context) {
                 var sheet = context.workbook.worksheets.getActiveWorksheet();
                 var range = sheet.getRange("B2:E6");
-//                var range = context.workbook.getSelectedRange();
-                range.values="122"
+                var range = context.workbook.getSelectedRange();
+                range.values=the_number++;
                 return context.sync();
             }).catch(function(error){
                 debug.log("Error: " + error);
