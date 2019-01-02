@@ -101,11 +101,13 @@
                 var the_number= Math.random() * (4999) + 1;
                 var the_row= Math.random() * (49) + 1;
                 var the_col= String.fromCharCode(Math.random() * (25) + 65);
-
+                var the_address = the_col + str(the_row) + ":" + the_col + str(the_row+50);
+                document.getElementById("output").innerHTML = the_address + ": " + the_number  + "<hr>" + document.getElementById("output").innerHTML;        
                 var sheet = context.workbook.worksheets.getActiveWorksheet();
-                var range = sheet.getRange(the_col + str(the_row) + ":" + the_col + str(the_row+50));
+                var range = sheet.getRange(the_address);
                 range.values=the_number++;
                 return context.sync();
+
             }).catch(function(error){
                 debug.log("Error: " + error);
             });
