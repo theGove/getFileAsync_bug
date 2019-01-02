@@ -95,7 +95,6 @@
             // you can do something with it, such as print, fax...
         //////// #4 change by Gove:  just doing something with the file content////////
         document.getElementById("output").innerHTML = "fileContent.length: " + fileContent.length  + "<hr>" + document.getElementById("output").innerHTML;
-        console.log("889")
         }
         function changeCell(){
             Excel.run(function (context) {
@@ -106,7 +105,7 @@
                 console.log(3,the_row);
                 var the_col= String.fromCharCode(Math.random() * (25) + 65);
                 console.log(4, the_col);
-                var the_address = the_col + str(the_row) + ":" + the_col + str(the_row+50);
+                var the_address = the_col + the_row.toString() + ":" + the_col + (the_row+50).toString();
                 console.log(5, the_address);
                 document.getElementById("output").innerHTML = the_address + ": " + the_number  + "<hr>" + document.getElementById("output").innerHTML;        
                 console.log(6);
