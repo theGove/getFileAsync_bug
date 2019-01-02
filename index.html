@@ -6,7 +6,6 @@
     <title>GetFileAsync Bug</title>
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/Office.js" type="text/javascript"></script>
     <script>
-        var the_number=100;
 
         function startMeUp(){
             Office.initialize = function () {
@@ -99,9 +98,12 @@
         }
         function changeCell(){
             Excel.run(function (context) {
+                var the_number= Math.random() * (4999) + 1;
+                var the_row= Math.random() * (49) + 1;
+                var the_col= String.fromCharCode(Math.random() * (25) + 65);
+
                 var sheet = context.workbook.worksheets.getActiveWorksheet();
-                var range = sheet.getRange("B2:E6");
-                var range = context.workbook.getSelectedRange();
+                var range = sheet.getRange(the_col + str(the_row) + ":" + the_col + str(the_row+50));
                 range.values=the_number++;
                 return context.sync();
             }).catch(function(error){
